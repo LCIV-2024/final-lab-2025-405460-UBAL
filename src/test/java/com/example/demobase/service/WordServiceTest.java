@@ -1,6 +1,8 @@
 package com.example.demobase.service;
 
+import com.example.demobase.dto.ScoreboardDTO;
 import com.example.demobase.dto.WordDTO;
+import com.example.demobase.model.Game;
 import com.example.demobase.model.Word;
 import com.example.demobase.repository.WordRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,13 +40,29 @@ class WordServiceTest {
 
     @Test
     void testGetAllWords() {
-        // TODO: Implementar el test para getAllWords
-        
+        List<Word> words = Arrays.asList(word1, word2, word3);
+
+        when(wordRepository.findAllOrdered()).thenReturn(words);
+
+        List<WordDTO> result = wordService.getAllWords();
+
+        assertNotNull(result);
+        assertEquals(result.get(0).getPalabra(), "PROGRAMADOR");
+        assertEquals(result.get(1).getPalabra(), "COMPUTADORA");
+        assertEquals(result.get(2).getPalabra(), "TECNOLOGIA");
+
     }
 
     @Test
     void testGetAllWords_EmptyList() {
-        // TODO: Implementar el test para getAllWords_EmptyList
+
+        when(wordRepository.findAllOrdered()).thenReturn(List.of());
+
+        List<WordDTO> result = wordService.getAllWords();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+
         
     }
 }
